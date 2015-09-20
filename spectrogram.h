@@ -21,6 +21,7 @@ public:
 	int getHeight();
 	int getStride();
 	int getSampleRate();
+	int getCenterFreq();
 	int getFFTSize();
 	QString getFileName();
 	off_t lineToSample(off_t line);
@@ -28,6 +29,7 @@ public:
 public slots:
 	void openFile(QString fileName);
 	void setSampleRate(int rate);
+	void setCenterFreq(int hz);
 	void setFFTSize(int size);
 	void setPowerMax(int power);
 	void setPowerMin(int power);
@@ -50,6 +52,7 @@ private:
 	uint colormap[256];
 
 	int sampleRate;
+	int centerFreq;
 	int fftSize;
 	int zoomLevel;
 	float powerMax;
