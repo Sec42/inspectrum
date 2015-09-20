@@ -20,7 +20,10 @@ public:
 	QSize sizeHint() const;
 	int getHeight();
 	int getStride();
+	int getSampleRate();
+	int getFFTSize();
 	QString getFileName();
+	off_t lineToSample(off_t line);
 
 public slots:
 	void openFile(QString fileName);
@@ -57,7 +60,6 @@ private:
 	float* getFFTTile(off_t tile);
 	void getLine(float *dest, off_t sample);
 	void paintTimeAxis(QPainter *painter, QRect rect);
-	off_t lineToSample(off_t line);
 	int sampleToLine(off_t sample);
 	QString sampleToTime(off_t sample);
 	int linesPerTile();
