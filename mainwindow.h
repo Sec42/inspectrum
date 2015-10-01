@@ -13,6 +13,7 @@ public:
     MainWindow();
     void changeSampleRate(int rate);
     void changeCenterFreq(int rate);
+    void openAnnotationFile(QString fileName);
 
 public slots:
     void openFile(QString fileName);
@@ -33,4 +34,5 @@ private:
 
 	off_t getCenterSample();
 	int getScrollPos(off_t sample);
+
 };

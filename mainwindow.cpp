@@ -158,3 +158,9 @@ void MainWindow::openFile(QString fileName)
     this->setWindowTitle(title.arg(QApplication::applicationName(),fileName.section('/',-1,-1)));
     spectrogram.openFile(fileName);
 }
+
+void MainWindow::openAnnotationFile(QString fileName)
+{
+    spectrogram.openAnnotationFile(fileName);
+}
+
