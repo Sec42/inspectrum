@@ -62,7 +62,6 @@ bool MainWindow::eventFilter(QObject * /*obj*/, QEvent *event)
 				return true;
 			}
 		}else if (event->type() == QEvent::MouseButtonRelease) {
-			QMouseEvent *mouseEvent = (QMouseEvent*)event;
 			QRect rb= rubberBand->geometry();
 
 			if(rb.top()==rb.bottom() or rb.left()==rb.right() or
@@ -72,19 +71,19 @@ bool MainWindow::eventFilter(QObject * /*obj*/, QEvent *event)
 				return false;
 			}
 
-			int topSample=spectrogram.lineToSample(scrollArea.verticalScrollBar()->value()+ rb.top());
-			int bottomSample=spectrogram.lineToSample(scrollArea.verticalScrollBar()->value()+ rb.bottom());
+			off_t topSample=spectrogram.lineToSample(scrollArea.verticalScrollBar()->value()+ rb.top());
+			off_t bottomSample=spectrogram.lineToSample(scrollArea.verticalScrollBar()->value()+ rb.bottom());
 
-			int leftFreq=(int)(scrollArea.horizontalScrollBar()->value() + rb.left())*spectrogram.getSampleRate()/spectrogram.getFFTSize();
-			int rightFreq=(int)(scrollArea.horizontalScrollBar()->value() + rb.right())*spectrogram.getSampleRate()/spectrogram.getFFTSize();
+			off_t leftFreq=	(long int)(scrollArea.horizontalScrollBar()->value() + rb.left())*spectrogram.getSampleRate()/spectrogram.getFFTSize() +spectrogram.getCenterFreq() -spectrogram.getSampleRate()/2;
+			off_t rightFreq= (scrollArea.horizontalScrollBar()->value() + rb.right())*spectrogram.getSampleRate()/spectrogram.getFFTSize() +spectrogram.getCenterFreq() -spectrogram.getSampleRate()/2;
 
 			QStringList command;
 			command << execCommand << spectrogram.getFileName() << QString::number(spectrogram.getSampleRate())
-				<< QString::number(spectrogram.lineToSample(scrollArea.verticalScrollBar()->value()+ rb.top()))
-				<< QString::number(spectrogram.lineToSample(scrollArea.verticalScrollBar()->value()+ rb.bottom()))
+				<< QString::number(topSample)
+				<< QString::number(bottomSample)
 
-				<< QString::number((long int)(scrollArea.horizontalScrollBar()->value() + rb.left())*spectrogram.getSampleRate()/spectrogram.getFFTSize() +spectrogram.getCenterFreq() -spectrogram.getSampleRate()/2)
-				<< QString::number((long int)(scrollArea.horizontalScrollBar()->value() + rb.right())*spectrogram.getSampleRate()/spectrogram.getFFTSize() +spectrogram.getCenterFreq() -spectrogram.getSampleRate()/2)
+				<< QString::number(leftFreq)
+				<< QString::number(rightFreq)
 				<< QString::number(spectrogram.getCenterFreq())
 				;
 
